@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر إلكتروني</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #232f3e;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        header img {
+            height: 50px;
+        }
+        header h1 {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+        nav {
+            background-color: #37475a;
+            color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        nav a:hover, nav a.active {
+            background-color: #f08804;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .product-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        .product {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .product img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .product input[type="number"] {
+            width: 50px;
+            text-align: center;
+            margin-top: 5px;
+        }
+        .product button {
+            background-color: #f08804;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .product button:hover {
+            background-color: #e07b02;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .cart-total {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            z-index: 1000;
+        }
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .product img {
+                height: 120px;
+            }
+            nav {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Logo">
+        <h1>متجر إلكتروني</h1>
+    </header>
+    <nav>
+        <a href="#supermarket" class="tab-link" data-tab="supermarket">سوبر ماركت</a>
+        <a href="#meat" class="tab-link" data-tab="meat">لحوم</a>
+        <a href="#books" class="tab-link" data-tab="books">مكتبات</a>
+        <a href="#cart" class="tab-link" data-tab="cart">السلة</a>
+    </nav>
+
+    <div id="supermarket" class="tab-content active">
+        <h2>سوبر ماركت</h2>
+        <div class="product-container">
+            <div class="product">
+                <img src="product1.jpg" alt="منتج">
+                <p>منتج 1</p>
+                <p>السعر: 10 جنيه</p>
+                <input type="number" value="1" min="1" id="quantity1">
+                <button onclick="addToCart('منتج 1', 10, 'quantity1')">أضف إلى السلة</button>
+            </div>
+            <div class="product">
+                <img src="product2.jpg" alt="منتج">
+                <p>منتج 2</p>
+                <p>السعر: 20 جنيه</p>
+                <input type="number" value="1" min="1" id="quantity2">
+                <button onclick="addToCart('منتج 2', 20, 'quantity2')">أضف إلى السلة</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="meat" class="tab-content">
+        <h2>لحوم</h2>
+        <div class="product-container">
+            <div class="product">
+                <img src="meat1.jpg" alt="لحوم">
+                <p>لحوم 1</p>
+                <p>السعر: 50 جنيه</p>
+                <input type="number" value="1" min="1" id="quantity3">
+                <button onclick="addToCart('لحوم 1', 50, 'quantity3')">أضف إلى السلة</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="books" class="tab-content">
+        <h2>مكتبات</h2>
+        <div class="product-container">
+            <div class="product">
+                <img src="book1.jpg" alt="كتاب">
+                <p>كتاب 1</p>
+                <p>السعر: 30 جنيه</p>
+                <input type="number" value="1" min="1" id="quantity4">
+                <button onclick="addToCart('كتاب 1', 30, 'quantity4')">أضف إلى السلة</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cart" class="tab-content">
+        <h2>سلة المشتريات</h2>
+        <div id="cart-items"></div>
+        <div class="cart-total" id="cart-total"></div>
+        <button onclick="sendOrder()">إرسال الطلب للواتساب</button>
+    </div>
+
+    <div class="notification" id="notification">تمت الإضافة إلى السلة</div>
+
+    <script>
+        let cart = [];
+
+        document.querySelectorAll('.tab-link').forEach(link => {
+            link.addEventListener('click', function () {
+                document.querySelectorAll('.tab-link').forEach(tab => tab.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+                this.classList.add('active');
+                document.getElementById(this.dataset.tab).classList.add('active');
+            });
+        });
+
+        function addToCart(productName, price, quantityId) {
+            const quantity = document.getElementById(quantityId).value;
+            cart.push({ productName, price, quantity });
+            updateCart();
+            showNotification();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                cartItems.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.productName} (x${item.quantity})</span>
+                        <span>${item.price * item.quantity} جنيه</span>
+                        <button onclick="removeFromCart(${index})">حذف</button>
+                    </div>
+                `;
+            });
+
+            cartTotal.innerText = `الإجمالي: ${total} جنيه`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function sendOrder() {
+            if (cart.length === 0) {
+                alert("السلة فارغة");
+                return;
+            }
+            
+            let message = "طلب جديد من المتجر:\n";
+            let totalItems = 0;
+            let totalPrice = 0;
+
+            cart.forEach(item => {
+                const itemTotalPrice = item.price * item.quantity;
+                totalItems += parseInt(item.quantity);
+                totalPrice += itemTotalPrice;
+                message += `- ${item.productName}\n  الكمية: ${item.quantity}\n  السعر الإجمالي: ${itemTotalPrice} جنيه\n`;
+            });
+
+            message += `\nإجمالي المنتجات: ${totalItems} قطعة\n`;
+            message += `إجمالي السعر: ${totalPrice} جنيه\n`;
+
+            const whatsappNumber = "+201500069996"; // ضع رقم هاتفك هنا
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, "_blank");
+        }
+
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
